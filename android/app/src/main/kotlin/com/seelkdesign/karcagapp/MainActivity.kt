@@ -1,4 +1,4 @@
-package com.example.karcag_app
+package com.seelkdesign.karcagapp
 
 import io.flutter.embedding.android.FlutterActivity
 
