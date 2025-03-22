@@ -1,25 +1,40 @@
-<<<<<<< HEAD
-# karcag_app
-<<<<<<< HEAD
-A mobile app for Karcag city.
-=======
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KarcagAPP</title>
+</head>
+<body>
+    <h1>KarcagAPP</h1>
+    <p>A KarcagAPP egy mobilalkalmazás, amely Karcag város legfontosabb híreit, eseményeit és szolgáltatásait gyűjti össze egy helyen.</p>
 
-A new Flutter project.
+    <h2>Funkciók</h2>
+    <ul>
+        <li>Hírek és események Karcagról</li>
+        <li>Szolgáltatások és üzletek elérhetőségei</li>
+        <li>Karcag ID létrehozása</li>
+        <li>Bejelentkezés meglévő fiókkal</li>
+    </ul>
 
-## Getting Started
+    <h2>Telepítés</h2>
+    <p>1. <strong>Klonozd a projektet</strong>:</p>
+    <pre><code>git clone https://github.com/seelkdesignstudio-dev/karcag_app.git
+cd karcag_app</code></pre>
 
-This project is a starting point for a Flutter application.
+    <p>2. <strong>Telepítsd a csomagokat</strong>:</p>
+    <pre><code>flutter pub get</code></pre>
 
-A few resources to get you started if this is your first Flutter project:
+    <p>3. <strong>Futtasd az alkalmazást</strong>:</p>
+    <pre><code>flutter run</code></pre>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+    <h2>Képernyők</h2>
+    <ul>
+        <li><strong>SplashScreen</strong>: Az alkalmazás logója.</li>
+        <li><strong>WelcomeScreen</strong>: Üdvözlő képernyő, ahol létrehozhatod a Karcag ID-t.</li>
+    </ul>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
->>>>>>> a676b67 (Set up KarcagAPP.)
-=======
-# KarcagAPP
-A mobile app for Karcag city in Hungary.
->>>>>>> 7f10dec6c07a5ce86426059a4ca3432fddcb3fd3
+    <h2>License</h2>
+    <p>Ez a projekt az MIT licenc alatt elérhető.</p>
+</body>
+</html>
