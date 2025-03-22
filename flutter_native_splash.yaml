@@ -1,0 +1,5 @@
+flutter_native_splash:
+  color: "#EBFFEE" # A háttérszín (fehér)
+  image: "assets/images/karcagapp_logo.png" # A logó elérési útja
+  android_12:
+    image: "assets/images/karcagapp_logo.png"

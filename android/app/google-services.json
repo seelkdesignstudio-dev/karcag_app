@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "920702460402",
+    "project_id": "karcagapp",
+    "storage_bucket": "karcagapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920702460402:android:b889db10acc2512c1d4b6b",
+        "android_client_info": {
+          "package_name": "com.example.karcag_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiWMYutTLFQFW9yTzsntUDS2DHZm4UiDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
