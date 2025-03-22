@@ -1,4 +1,3 @@
-  KarcagAPP
 
 KarcagAPP
 =========
@@ -28,12 +27,6 @@ Telepítés
 3\. **Futtasd az alkalmazást**:
 
     flutter run
-
-Képernyők
----------
-
-*   **SplashScreen**: Az alkalmazás logója.
-*   **WelcomeScreen**: Üdvözlő képernyő, ahol létrehozhatod a Karcag ID-t.
 
 License
 -------
