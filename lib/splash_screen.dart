@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/animation.dart';
+import 'package:flutter/services.dart'; // Fontos a SystemChrome importálása
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-  Animation<double>? _animation;
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: Duration(seconds: 2),
-      vsync: this,
-    );
+    // Átlátszó státuszsáv beállítása, de a navigációs sáv nem változik
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Státuszsáv átlátszó
+      systemNavigationBarColor:
+          Color(0xFFEBFFEE), // Rendszer navigációs sáv színe marad
+      systemNavigationBarIconBrightness: Brightness.dark, // Ikonok színe sötét
+    ));
 
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller!, curve: Curves.easeInOut),
-    );
-
-    _controller!.forward();
-
+    // 3 másodperc várakozás után átirányítunk a következő képernyőre
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/welcome');
     });
@@ -33,7 +29,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _controller?.dispose();
     super.dispose();
   }
 
@@ -44,20 +39,35 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Center(
-            child: FadeTransition(
-              opacity: _animation!,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/karcagapp_logo.png',
-                    width: 150,
-                    height: 150,
-                  ),
-                ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/karcagapp_logo.png',
+                width: 150,
+                height: 150,
               ),
-            ),
+              SizedBox(height: 40),
+
+              // Töltőcsík lekerekítése
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 80),
+                child: Container(
+                  height: 5,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(10), // Lekerekített háttér
+                    color: Color.fromARGB(255, 138, 186, 144).withOpacity(0.3),
+                  ),
+                  child: LinearProgressIndicator(
+                    minHeight: 5,
+                    backgroundColor: Colors.transparent,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Color.fromARGB(255, 53, 110, 55)),
+                  ),
+                ),
+              ),
+            ],
           ),
           Positioned(
             bottom: 40,
