@@ -12,6 +12,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _showPassword = false;
   bool _showConfirmPassword = false;
   bool _isScrolled = false;
+  bool _termsAccepted = false;
+  String? _helperText; // A dinamikusan változó súgó szöveg
+
+  void _showHelperText(String message) {
+    final snackBar = SnackBar(
+      content: Row(
+        children: [
+          Icon(Icons.info_outline, color: Colors.white), // Info ikon
+          SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: const Color(0xFF024731), // Zöld háttér
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(6),
                           ),
                           side: const BorderSide(color: Color(0xFF024731)),
                         ),
@@ -116,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 12),
 
-// Facebook login button
+                    // Facebook login button
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
@@ -124,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(6),
                           ),
                           side: const BorderSide(color: Color(0xFF024731)),
                         ),
@@ -155,80 +177,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 24),
 
-                    // Teljes név mező
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Teljes név',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                    // Emailes regisztráció szekció
+                    Text(
+                      'Fiók létrehozása manuálisan:',
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF024731),
                       ),
                     ),
                     const SizedBox(height: 12),
-
-                    // Becenév mező
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Becenév',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
+                    _buildTextField('Teljes név', withHelpIcon: true),
                     const SizedBox(height: 12),
-
-                    // Jelszó mező
-                    TextField(
-                      obscureText: !_showPassword,
-                      decoration: InputDecoration(
-                        labelText: 'Jelszó',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(_showPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              _showPassword = !_showPassword;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+                    _buildTextField('Becenév', withHelpIcon: true),
+                    const SizedBox(height: 12),
+                    _buildTextField('Email cím'),
+                    const SizedBox(height: 12),
+                    _buildPasswordField('Jelszó', isPassword: true),
                     const SizedBox(height: 12),
 
                     // Jelszó újra mező
-                    TextField(
-                      obscureText: !_showConfirmPassword,
-                      decoration: InputDecoration(
-                        labelText: 'Jelszó újra',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(_showConfirmPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              _showConfirmPassword = !_showConfirmPassword;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+                    _buildPasswordField('Jelszó újra', isPassword: false),
                     const SizedBox(height: 12),
 
-                    // Hozzájárulás checkbox
+                    // Checkbox a személyes adatok kezeléséhez
                     Row(
                       children: [
                         Checkbox(
-                          value: false,
-                          onChanged: (value) {},
+                          value: _termsAccepted,
+                          onChanged: (value) {
+                            setState(() {
+                              _termsAccepted = value!;
+                            });
+                          },
+                          activeColor: const Color(0xFF024731), // Zöld szín
                         ),
                         Expanded(
                           child: Text(
@@ -242,12 +226,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
 
                     // Fiók létrehozása gomb
                     ElevatedButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.arrow_forward, size: 20),
+                      icon: const Icon(Icons.arrow_forward,
+                          size: 20, color: Colors.white), // Fehér nyíl
                       label: Text(
                         'Fiók létrehozása',
                         style: GoogleFonts.poppins(
@@ -258,7 +243,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF024731),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 24), // Padding a gomb körül
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -270,6 +257,104 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label,
+      {bool obscureText = false,
+      Widget? suffixIcon,
+      bool withHelpIcon = false}) {
+    return TextField(
+      obscureText: obscureText,
+      cursorColor: const Color(0xFF024731), // Zöld kurzor
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: const Color(0xFF024731)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(
+              color: Color(0xFF024731)), // Zöld keret inaktív állapotban is
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(
+              color: const Color(0xFF024731),
+              width: 2), // Zöld színű, ha fókuszban van
+        ),
+        suffixIcon: suffixIcon,
+        prefixIcon: withHelpIcon
+            ? IconButton(
+                icon: Icon(
+                  Icons.info_outline,
+                  color: const Color(0xFF024731),
+                ),
+                onPressed: () {
+                  if (label == 'Teljes név') {
+                    _showHelperText(
+                        'Kérjük, add meg a teljes neved, hogy a fiókodat biztonságosan kezelhessük és személyre szabott szolgáltatásokat nyújthassunk.');
+                  } else if (label == 'Becenév') {
+                    _showHelperText(
+                        'A beceneved segít abban, hogy a rendszer barátságosabban szólhasson hozzád.');
+                  }
+                },
+              )
+            : null,
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(String label, {required bool isPassword}) {
+    return TextField(
+      obscureText: isPassword ? !_showPassword : !_showConfirmPassword,
+      cursorColor: const Color(0xFF024731),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: const Color(0xFF024731)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(
+              color: Color(0xFF024731)), // Zöld keret inaktív állapotban is
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: const Color(0xFF024731), width: 2),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPassword
+                ? (_showPassword ? Icons.visibility : Icons.visibility_off)
+                : (_showConfirmPassword
+                    ? Icons.visibility
+                    : Icons.visibility_off),
+            color: const Color(0xFF024731),
+          ),
+          onPressed: () {
+            setState(() {
+              if (isPassword) {
+                _showPassword = !_showPassword;
+              } else {
+                _showConfirmPassword = !_showConfirmPassword;
+              }
+            });
+          },
         ),
       ),
     );
