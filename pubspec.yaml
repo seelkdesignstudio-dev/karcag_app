@@ -33,6 +33,7 @@ flutter:
   assets:
     - assets/images/
     - assets/fonts/
+    - assets/images/karcagapp_fb_img.png
   fonts:
     - family: Poppins
       fonts:
