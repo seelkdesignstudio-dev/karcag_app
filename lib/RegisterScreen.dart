@@ -13,23 +13,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _showConfirmPassword = false;
   bool _isScrolled = false;
   bool _termsAccepted = false;
-  String? _helperText; // A dinamikusan változó súgó szöveg
 
   void _showHelperText(String message) {
     final snackBar = SnackBar(
       content: Row(
         children: [
-          Icon(Icons.info_outline, color: Colors.white), // Info ikon
-          SizedBox(width: 8),
+          const Icon(Icons.info_outline, color: Colors.white),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               message,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
       ),
-      backgroundColor: const Color(0xFF024731), // Zöld háttér
+      backgroundColor: Theme.of(context).primaryColor,
       duration: const Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -37,8 +36,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFEBFFEE),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           if (notification is ScrollUpdateNotification) {
@@ -51,13 +52,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: const Color(0xFFEBFFEE),
+              backgroundColor: theme.scaffoldBackgroundColor,
               elevation: 0,
               pinned: true,
               floating: false,
               expandedHeight: 60,
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Color(0xFF024731)),
+                icon: Icon(Icons.arrow_back, color: theme.primaryColor),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               centerTitle: true,
@@ -67,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF024731),
+                        color: theme.primaryColor,
                       ),
                     )
                   : null,
@@ -84,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: GoogleFonts.poppins(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF024731),
+                        color: theme.primaryColor,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -93,99 +94,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: const Color(0xFF024731),
+                        color: theme.primaryColor,
                       ),
                     ),
                     const SizedBox(height: 24),
 
                     // Google login button
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          side: const BorderSide(color: Color(0xFF024731)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset('assets/images/google.png',
-                                  width: 24),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  'Létrehozás Google-fiókkal',
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF024731),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildSocialButton('Létrehozás Google-fiókkal',
+                        'assets/images/google.png'),
+
                     const SizedBox(height: 12),
 
                     // Facebook login button
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          side: const BorderSide(color: Color(0xFF024731)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset('assets/images/facebook.png',
-                                  width: 24),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  'Létrehozás Facebook-fiókkal',
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF024731),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildSocialButton('Létrehozás Facebook-kal',
+                        'assets/images/facebook.png'),
 
                     const SizedBox(height: 24),
 
-                    // Emailes regisztráció szekció
                     Text(
                       'Fiók létrehozása manuálisan:',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF024731),
+                        color: theme.primaryColor,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -197,8 +128,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 12),
                     _buildPasswordField('Jelszó', isPassword: true),
                     const SizedBox(height: 12),
-
-                    // Jelszó újra mező
                     _buildPasswordField('Jelszó újra', isPassword: false),
                     const SizedBox(height: 12),
 
@@ -212,7 +141,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _termsAccepted = value!;
                             });
                           },
-                          activeColor: const Color(0xFF024731), // Zöld szín
+                          activeColor: theme
+                              .primaryColor, // Kitöltött szín, ha be van pipálva
+                          checkColor: Colors.white, // Pipálás színe
+                          side: BorderSide(
+                            color: theme.primaryColor,
+                            width: 2,
+                          ), // Csak a keret látszik, ha nincs bepipálva
+                          fillColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                              if (states.contains(MaterialState.selected)) {
+                                return theme
+                                    .primaryColor; // Kitöltés, ha be van pipálva
+                              }
+                              return Colors
+                                  .transparent; // Nincs kitöltés, ha nincs bepipálva
+                            },
+                          ),
                         ),
                         Expanded(
                           child: Text(
@@ -220,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: const Color(0xFF024731),
+                              color: theme.primaryColor,
                             ),
                           ),
                         ),
@@ -231,23 +176,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Fiók létrehozása gomb
                     ElevatedButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.arrow_forward,
-                          size: 20, color: Colors.white), // Fehér nyíl
+                      icon: const Icon(Icons.arrow_forward, size: 20),
                       label: Text(
                         'Fiók létrehozása',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF024731),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 14,
-                            horizontal: 24), // Padding a gomb körül
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                     ),
@@ -262,42 +196,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  Widget _buildSocialButton(String text, String assetPath) {
+    final theme = Theme.of(context);
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+          ),
+          side: BorderSide(color: theme.primaryColor),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(assetPath, width: 24),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: theme.primaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildTextField(String label,
-      {bool obscureText = false,
-      Widget? suffixIcon,
-      bool withHelpIcon = false}) {
+      {bool obscureText = false, bool withHelpIcon = false}) {
+    final theme = Theme.of(context);
     return TextField(
       obscureText: obscureText,
-      cursorColor: const Color(0xFF024731), // Zöld kurzor
+      cursorColor: theme.primaryColor,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: const Color(0xFF024731)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(
-              color: Color(0xFF024731)), // Zöld keret inaktív állapotban is
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: BorderSide(
-              color: const Color(0xFF024731),
-              width: 2), // Zöld színű, ha fókuszban van
-        ),
-        suffixIcon: suffixIcon,
-        prefixIcon: withHelpIcon
+        suffixIcon: withHelpIcon
             ? IconButton(
-                icon: Icon(
-                  Icons.info_outline,
-                  color: const Color(0xFF024731),
-                ),
+                icon: Icon(Icons.info_outline, color: theme.primaryColor),
                 onPressed: () {
                   if (label == 'Teljes név') {
                     _showHelperText(
@@ -314,29 +260,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPasswordField(String label, {required bool isPassword}) {
+    final theme = Theme.of(context);
     return TextField(
       obscureText: isPassword ? !_showPassword : !_showConfirmPassword,
-      cursorColor: const Color(0xFF024731),
+      cursorColor: theme.primaryColor,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: const Color(0xFF024731)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(color: Color(0xFF024731)), // Zöld keret
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(
-              color: Color(0xFF024731)), // Zöld keret inaktív állapotban is
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: BorderSide(color: const Color(0xFF024731), width: 2),
-        ),
         suffixIcon: IconButton(
           icon: Icon(
             isPassword
@@ -344,7 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 : (_showConfirmPassword
                     ? Icons.visibility
                     : Icons.visibility_off),
-            color: const Color(0xFF024731),
+            color: theme.primaryColor,
           ),
           onPressed: () {
             setState(() {
